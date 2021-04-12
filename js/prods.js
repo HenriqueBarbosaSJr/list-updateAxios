@@ -1,6 +1,12 @@
 // Referências do DOM HTML
 
 const tbodyList = document.getElementById('tbodyList');
+const lblCod = document.getElementById('lblCod');
+const inpNome = document.getElementById('inpNome');
+const inpDesc = document.getElementById('inpDesc');
+const inpQtda = document.getElementById('inpQtda');
+const inpFab = document.getElementById('inpFab');
+const btnAlterar = document.getElementById('btnAlterar');
 
 const popup = document.querySelector('.popupWrapper');
 
@@ -36,14 +42,47 @@ function consultaGeral(){
     })
 }
 
-function onEdit(){
+function onEdit(td){
+    let dataSelection = td.parentElement.parentElement;
+    
     popup.style.display = 'block';
+    lblCod.innerHTML = dataSelection.cells[0].innerHTML;
+    inpNome.value = dataSelection.cells[1].innerHTML;
+    inpDesc.value = dataSelection.cells[2].innerHTML;
+    inpQtda.value = dataSelection.cells[3].innerHTML;
+    inpFab.value = dataSelection.cells[4].innerHTML;
+
 }
 
+function updateProds(){
+    let codPro = lblCod.innerHTML;
+    let nomeProd = inpNome.value;
+    let descProd = inpDesc.value;
+    let qtdaProd = inpQtda.value;
+    let fabProd = inpFab.value;
+
+    data = {
+        'nome': nomeProd,
+        'descri': descProd,
+        'qtda': qtdaProd,
+        'fabricante': fabProd
+    };
+    console.log('Código do produto = ' + codPro);
+
+    api.put('produtos/' + codPro, data).then(res=>{
+        console.log('Alteração realizada!');
+        consultaGeral();
+    }).catch(err=> console.log('Erro ao realizar a alteração!'));
+
+}
+
+btnAlterar.onclick = ()=>{
+    updateProds();
+}
 
 popup.addEventListener('click', event =>{
     const classClicada = event.target.classList[0];
-    console.log(classClicada);
+    // console.log(classClicada); // Exibe a classe clicada
     if ( classClicada === 'popupClose'||
             classClicada === 'closeLinkPopup' 
             )
