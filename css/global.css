@@ -1,0 +1,28 @@
+.container{
+    
+}
+.titulo{
+    font-size: 25px;
+    text-align: center;
+    color: #2b21eb;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.tituloSub{
+    font-size: 20px;
+    text-align: center;
+    color: #2b21eb;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+button {
+    display: block;
+    margin: 30px;
+    background-color: #2b21eb;
+    color: #fff;
+    border: 0;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 4px;
+
+}
