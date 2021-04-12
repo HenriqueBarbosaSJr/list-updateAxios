@@ -11,6 +11,7 @@ Utilizando método: GET, PUT.
  
 
  ### 📒 Languages
+  * HTML
   * Javascript
   * css
   
