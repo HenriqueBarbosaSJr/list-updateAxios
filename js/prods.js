@@ -6,10 +6,20 @@ const inpNome = document.getElementById('inpNome');
 const inpDesc = document.getElementById('inpDesc');
 const inpQtda = document.getElementById('inpQtda');
 const inpFab = document.getElementById('inpFab');
+
 const btnAlterar = document.getElementById('btnAlterar');
+const btnConsulta = document.getElementById('btnConsulta');
+
+
+const btnFirst = document.getElementById('btnFirst');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const btnLast = document.getElementById('btnLast');
+
 
 const popup = document.querySelector('.popupWrapper');
 
+let data, numberEl;
 
 let state = {
     page:1,
@@ -28,24 +38,54 @@ function consultaGeral(){
     
     api.get('produtos').then(res=>{
         console.log('Realizando a consulta ...');
-
-        const data = res.data;
-        let i, tr;
-        tbodyList.innerHTML='';
-        for (i=0; i < data.length; i++){
-            tr = '<tr>' +
-                    '<td>' + data[i].cod + '</td>' +
-                    '<td>' + data[i].nome + '</td>' +
-                    '<td>' + data[i].descri + '</td>' +
-                    '<td>' + data[i].qtda + '</td>' +
-                    '<td>' + data[i].fabricante + '</td>' +
-                    '<td>' + data[i].datahora + '</td>' +
-                    '<td> <a id="btnUpdate" onclick="onEdit(this)"> <img class="imgUpdate" src="../img/updateIcon.png"/> </a></td>' +
-                 '</tr>';
-            tbodyList.innerHTML += tr;
-        }
-    })
+        data = res.data;
+        numberEl = data.length;
+        // console.log(numberEl);
+        state = {
+            page: 1,
+            totalPage: Math.ceil(numberEl / 5)
+        }        
+        // console.log(state.totalPage);
+        populateList();
+    });
+  
 }
+
+function populateList(){
+
+
+    let i, tr;
+    tbodyList.innerHTML='';
+
+    let iniPage = state.page - 1;
+    let startCorte = iniPage * 5;
+    let endCorte = startCorte + 5;
+    
+    //console.log('valor do startCorte = ' + startCorte);
+    // console.log('valor do endCorte = ' + endCorte);
+    
+
+    
+
+    for (i=0; i < data.length; i++){
+        tr = '<tr>' +
+                '<td>' + data[i].cod + '</td>' +
+                '<td>' + data[i].nome + '</td>' +
+                '<td>' + data[i].descri + '</td>' +
+                '<td>' + data[i].qtda + '</td>' +
+                '<td>' + data[i].fabricante + '</td>' +
+                '<td>' + data[i].datahora + '</td>' +
+                '<td> <a id="btnUpdate" onclick="onEdit(this)"> <img class="imgUpdate" src="../img/updateIcon.png"/> </a></td>' +
+             '</tr>';
+        tbodyList.innerHTML += tr;
+    }
+
+}
+
+btnConsulta.onclick = ()=>{
+    populateList();
+}
+
 
 function onEdit(td){
     let dataSelection = td.parentElement.parentElement;
@@ -96,4 +136,62 @@ popup.addEventListener('click', event =>{
             }
 });
 
+
+const controls ={
+    next() {
+        state.page ++;
+        if(state.page > state.totalPage){
+            state.page--;
+        }
+    },
+    prev(){
+        state.page --;
+        if(state.page < 1){
+            state.page++;
+        }
+
+    },
+    goTo(page){
+        if(page < 1){
+            page = 1;
+        }
+        state.page = page ;
+        if(page > state.totalPage){
+            state.page = state.totalPage;
+        }
+
+    }
+
+}
+
+btnFirst.onclick = ()=>{
+    controls.goTo(1);
+    // console.log(state.totalPage);
+    // console.log(state.page);
+}
+
+
+
+btnPrev.onclick = ()=>{
+    controls.prev();
+    // console.log(state.totalPage);
+    // console.log(state.page);
+}
+
+
+btnNext.onclick = ()=>{
+    controls.next();
+    // console.log(state.totalPage);
+    // console.log(state.page);
+}
+
+
+btnLast.onclick = ()=>{
+     controls.goTo(state.totalPage);
+     // console.log(state.totalPage);
+     // console.log(state.page);
+}
+
+
 consultaGeral();
+
