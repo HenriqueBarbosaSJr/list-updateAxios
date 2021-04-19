@@ -16,6 +16,8 @@ const btnPrev = document.getElementById('btnPrev');
 const btnNext = document.getElementById('btnNext');
 const btnLast = document.getElementById('btnLast');
 
+const lblPage = document.getElementById('lblPage');
+
 
 const popup = document.querySelector('.popupWrapper');
 
@@ -61,30 +63,32 @@ function populateList(){
     let startCorte = iniPage * 5;
     let endCorte = startCorte + 5;
     
-    //console.log('valor do startCorte = ' + startCorte);
-    // console.log('valor do endCorte = ' + endCorte);
+    console.log('valor do startCorte = ' + startCorte);
+    console.log('valor do endCorte = ' + endCorte);
     
+    const paginateItens = data.slice(startCorte, endCorte);
 
     
-
-    for (i=0; i < data.length; i++){
+    for (i=0; i < paginateItens.length; i++){
         tr = '<tr>' +
-                '<td>' + data[i].cod + '</td>' +
-                '<td>' + data[i].nome + '</td>' +
-                '<td>' + data[i].descri + '</td>' +
-                '<td>' + data[i].qtda + '</td>' +
-                '<td>' + data[i].fabricante + '</td>' +
-                '<td>' + data[i].datahora + '</td>' +
+                '<td>' + paginateItens[i].cod + '</td>' +
+                '<td>' + paginateItens[i].nome + '</td>' +
+                '<td>' + paginateItens[i].descri + '</td>' +
+                '<td>' + paginateItens[i].qtda + '</td>' +
+                '<td>' + paginateItens[i].fabricante + '</td>' +
+                '<td>' + paginateItens[i].datahora + '</td>' +
                 '<td> <a id="btnUpdate" onclick="onEdit(this)"> <img class="imgUpdate" src="../img/updateIcon.png"/> </a></td>' +
              '</tr>';
         tbodyList.innerHTML += tr;
     }
+    lblPage.innerHTML = state.page;
 
 }
 
 btnConsulta.onclick = ()=>{
     populateList();
 }
+
 
 
 function onEdit(td){
@@ -166,30 +170,35 @@ const controls ={
 
 btnFirst.onclick = ()=>{
     controls.goTo(1);
-    // console.log(state.totalPage);
-    // console.log(state.page);
+    populateList();
+    console.log(state.totalPage);
+    console.log(state.page);
 }
 
 
 
 btnPrev.onclick = ()=>{
     controls.prev();
-    // console.log(state.totalPage);
-    // console.log(state.page);
+    populateList();
+    console.log(state.totalPage);
+    console.log(state.page);
 }
 
 
 btnNext.onclick = ()=>{
     controls.next();
-    // console.log(state.totalPage);
-    // console.log(state.page);
+    populateList();
+    console.log(state.totalPage);
+    console.log(state.page);
 }
 
 
 btnLast.onclick = ()=>{
      controls.goTo(state.totalPage);
-     // console.log(state.totalPage);
-     // console.log(state.page);
+     populateList();
+     console.log(state.totalPage);
+     console.log(state.page);
+     lblPage.innerHTML = state.page;
 }
 
 
