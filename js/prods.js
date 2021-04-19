@@ -11,6 +11,11 @@ const btnAlterar = document.getElementById('btnAlterar');
 const popup = document.querySelector('.popupWrapper');
 
 
+let state = {
+    page:1,
+    totalPage:0
+};
+
 
 const api = axios.create({
     baseURL:'http://18.224.8.119:3334/',
