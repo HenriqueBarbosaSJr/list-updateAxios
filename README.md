@@ -2,6 +2,8 @@
 
 Exemplo de consulta e alteração de dados em javascript consumindo dados de uma API.
 
+Implementação da consulta por nome a um registro de dados.
+
 Requisições realizadas utilizando cliente HTTP Axios
 
 Utilizando método: GET, PUT.

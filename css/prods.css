@@ -21,6 +21,18 @@
     color: white;
   }
 
+  #containerConsult{
+      display: flex;
+      justify-content: center;
+  }
+
+  #containerConsult input{
+      width: 80%;
+
+  }
+  #containerConsult button{
+    margin-top: 0px;
+  }
 
   .imgUpdate{
       width: 26px;

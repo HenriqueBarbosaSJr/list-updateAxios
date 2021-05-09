@@ -6,6 +6,7 @@ const inpNome = document.getElementById('inpNome');
 const inpDesc = document.getElementById('inpDesc');
 const inpQtda = document.getElementById('inpQtda');
 const inpFab = document.getElementById('inpFab');
+const inpConsult = document.getElementById('inpConsult');
 
 const btnAlterar = document.getElementById('btnAlterar');
 const btnConsulta = document.getElementById('btnConsulta');
@@ -21,7 +22,7 @@ const lblPage = document.getElementById('lblPage');
 
 const popup = document.querySelector('.popupWrapper');
 
-let data, numberEl;
+let data, numberEl, nomeCons;
 
 let state = {
     page:1,
@@ -51,6 +52,23 @@ function consultaGeral(){
         populateList();
     });
   
+}
+
+function consultaNome(){
+    console.log("Consultando nome....");
+    nomeCons = inpConsult.value;
+    api.get('produtos/' + nomeCons).then(res=>{
+        console.log('Realizando a consulta ...');
+        data = res.data;
+        numberEl = data.length;
+        // console.log(numberEl);
+        state = {
+            page: 1,
+            totalPage: Math.ceil(numberEl / 5)
+        }        
+        // console.log(state.totalPage);
+        populateList();
+    });
 }
 
 function populateList(){
@@ -86,7 +104,8 @@ function populateList(){
 }
 
 btnConsulta.onclick = ()=>{
-    populateList();
+    consultaNome();
+  
 }
 
 
@@ -118,7 +137,7 @@ function updateProds(){
     };
     console.log('Código do produto = ' + codPro);
 
-    api.put('produtos/' + codPro, data).then(res=>{
+    api.put('produto/' + codPro, data).then(res=>{
         console.log('Alteração realizada!');
         consultaGeral();
     }).catch(err=> console.log('Erro ao realizar a alteração!'));
@@ -174,7 +193,6 @@ btnFirst.onclick = ()=>{
     console.log(state.totalPage);
     console.log(state.page);
 }
-
 
 
 btnPrev.onclick = ()=>{
